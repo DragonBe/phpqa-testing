@@ -1,6 +1,8 @@
 <?php
 namespace Phpqa\Tests\Model;
 
+use Phpqa\Model\Comment;
+
 class CommentTest extends \PHPUnit_Framework_TestCase
 {
     public function testModelIsPopulatedAtConstruct()
@@ -14,7 +16,7 @@ class CommentTest extends \PHPUnit_Framework_TestCase
             'comment' => $faker->text(),
         ];
 
-        $comment = new \Phpqa\Model\Comment($data);
+        $comment = new Comment($data);
         $this->assertSame($data['commentId'], $comment->getCommentId());
         $this->assertSame($data['fullName'], $comment->getFullName());
         $this->assertSame($data['emailAddress'], $comment->getEmailAddress());
