@@ -1,6 +1,11 @@
 <?php
 namespace Phpqa\Model;
 
+use \Zend\InputFilter\InputFilter;
+use \Zend\InputFilter\Input;
+use \Zend\Filter;
+use \Zend\Validator;
+
 class Comment
 {
     /**
@@ -23,6 +28,10 @@ class Comment
      * @var string The actual comment
      */
     protected $comment;
+    /**
+     * @var InputFilter
+     */
+    protected $inputFilter;
 
     /**
      * Constructor for this comment, allows immediate setting of comments at
@@ -115,6 +124,66 @@ class Comment
     public function setComment($comment)
     {
         $this->comment = $comment;
+    }
+
+    /**
+     * @return InputFilter
+     */
+    public function getInputFilter()
+    {
+        // Lazy loading of filter and validation rules
+        if (null === $this->inputFilter) {
+            $commentId = new Input('commentId');
+            $commentId->getFilterChain()
+                ->attach(new Filter\Int());
+            $commentId->getValidatorChain()
+                ->attach(new Validator\GreaterThan(['min' => 0]));
+
+            $fullName = new Input('fullName');
+            $fullName->getFilterChain()
+                ->attach(new Filter\StringTrim())
+                ->attach(new Filter\StripTags())
+                ->attach(new Filter\HtmlEntities());
+            $fullName->getValidatorChain()
+                ->attach(new Validator\NotEmpty())
+                ->attach(new Validator\StringLength(['min' => 5, 'max' => 150]));
+
+            $emailAddress = new Input('emailAddress');
+            $emailAddress->getFilterChain()
+                ->attach(new Filter\StringToLower());
+            $emailAddress->getValidatorChain()
+                ->attach(new Validator\NotEmpty())
+                ->attach(new Validator\EmailAddress());
+
+            $website = new Input('website');
+            $website->getFilterChain()
+                ->attach(new Filter\StringToLower());
+            $website->getValidatorChain()
+                ->attach(new Validator\Uri());
+
+            $comment = new Input('comment');
+            $comment->getFilterChain()
+                ->attach(new Filter\StripTags())
+                ->attach(new Filter\HtmlEntities());
+
+            $inputFilter = new InputFilter();
+            $inputFilter->add($commentId)
+                ->add($fullName)
+                ->add($emailAddress)
+                ->add($website)
+                ->add($comment);
+
+            $this->setInputFilter($inputFilter);
+        }
+        return $this->inputFilter;
+    }
+
+    /**
+     * @param InputFilter $inputFilter
+     */
+    public function setInputFilter(InputFilter $inputFilter)
+    {
+        $this->inputFilter = $inputFilter;
     }
 
     /**
