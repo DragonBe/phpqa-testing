@@ -9,12 +9,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Phpqa\\": "src/"
+      "Phpqa\\": "src/Phpqa/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Phpqa\\Tests\\": "tests/"
+      "Phpqa\\Tests\\": "tests/Phpqa/"
     }
   }
 }
