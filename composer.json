@@ -1,0 +1,20 @@
+{
+  "require": {
+    "php": "<=5.5.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.4",
+    "phpunit/php-invoker": "~1.1",
+    "fzaninotto/faker": "v1.4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phpqa\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Phpqa\\Tests\\": "tests/"
+    }
+  }
+}
