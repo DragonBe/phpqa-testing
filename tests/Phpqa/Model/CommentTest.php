@@ -7,13 +7,12 @@ class CommentTest extends \PHPUnit_Framework_TestCase
 {
     public function testModelIsPopulatedAtConstruct()
     {
-        $faker = \Faker\Factory::create();
         $data = [
-            'commentId' => rand(1, time()),
-            'fullName' => $faker->name,
-            'emailAddress' => $faker->email,
-            'website' => $faker->url,
-            'comment' => $faker->text(),
+            'commentId'    => 1,
+            'fullName'     => 'Johny Test',
+            'emailAddress' => 'johny.test@example.com',
+            'website'      => 'http://johnytest.com',
+            'comment'      => 'This is a comment',
         ];
 
         $comment = new Comment($data);
